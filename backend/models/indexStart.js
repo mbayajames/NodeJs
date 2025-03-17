@@ -1,34 +1,45 @@
+// Import the database configuration from an external file
 const dbConfig = require('../config/dbConfig');
 
-const (sequelize, DataTypes) = require('sequelize');
+// Import Sequelize and DataTypes from the sequelize package
+const { Sequelize, DataTypes } = require('sequelize');
 
+// Initialize a Sequelize instance (connection to the database)
 const sequelize = new Sequelize(
-    dbConfig.DB,
-    dbConfig.USER,
-    dbConfig.PASSWORD,{
-       host: dbConfig.HOST,
-       dialect: dbConfig.dialect,
-       operatorsAliases: false //if errors in a your code will overwrite the errors using this line
+    dbConfig.DB,        // Database name
+    dbConfig.USER,      // Database username
+    dbConfig.PASSWORD,  // Database password
+    {
+        host: dbConfig.HOST,       // Database host (e.g., localhost)
+        dialect: dbConfig.dialect, // Type of database (e.g., MySQL, PostgreSQL, etc.)
+        operatorsAliases: false    // Disables aliasing for security reasons (not needed in modern Sequelize)
     }
-)
+);
 
+// Test the database connection
 sequelize.authenticate()
-.then(() => {
-    console.log('database connection successful...');
-})
-.catch(err =>{
-    console.log('Error'+ err);
-})
+    .then(() => {
+        console.log('Database connection successful...'); // If connection is successful
+    })
+    .catch(err => {
+        console.log('Error: ' + err); // If an error occurs, log the error message
+    });
 
-const db ={}
-db.sequelize = Sequelize
-db.sequelize = sequelize
+// Create an object to store Sequelize-related properties and models
+const db = {};
 
-db.students = require('./studentModel')(sequelize, DataTypes)
+// Store Sequelize constructor and instance in the `db` object
+db.Sequelize = Sequelize;  // Storing the Sequelize class itself
+db.sequelize = sequelize;  // Storing the actual database connection instance
 
-db.sequelize.sync({force: false})
-.then(() => {
-    console.log('re-sync done');
-})
+// Import the 'students' model and initialize it with Sequelize
+db.students = require('./studentModel')(sequelize, DataTypes);
 
-module.exports = db
+// Sync the database (create tables if they don't exist)
+db.sequelize.sync({ force: false })  // `force: false` prevents re-creating tables and losing data
+    .then(() => {
+        console.log('Re-sync done'); // Logs when sync is successful
+    });
+
+// Export the db object so other parts of the app can use it
+module.exports = db;
