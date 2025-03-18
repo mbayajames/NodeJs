@@ -38,7 +38,7 @@ db.students = require('./studentModel')(sequelize, DataTypes);
 // Sync the database (create tables if they don't exist)
 db.sequelize.sync({ force: false })  // `force: false` prevents re-creating tables and losing data
     .then(() => {
-        console.log('Re-sync done'); // Logs when sync is successful
+        console.log('re-sync done'); // Logs when sync is successful
     });
 
 // Export the db object so other parts of the app can use it
