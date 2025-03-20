@@ -34,6 +34,8 @@ db.sequelize = sequelize;  // Storing the actual database connection instance
 
 // Import the 'students' model and initialize it with Sequelize
 db.students = require('./studentModel')(sequelize, DataTypes);
+// db.courses = require('./courseModel')(sequelize, DataTypes);
+// db.users = require('./authModel')(sequelize, DataTypes);
 
 // Sync the database (create tables if they don't exist)
 db.sequelize.sync({ force: false })  // `force: false` prevents re-creating tables and losing data
@@ -41,5 +43,7 @@ db.sequelize.sync({ force: false })  // `force: false` prevents re-creating tabl
         console.log('re-sync done'); // Logs when sync is successful
     });
 
+//db.courses.hasOne(db.students)
+db.students.belongsTo(db.courses, { foreignKey: "course_id"})
 // Export the db object so other parts of the app can use it
 module.exports = db;
