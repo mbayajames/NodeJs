@@ -34,7 +34,7 @@ db.sequelize = sequelize;  // Storing the actual database connection instance
 
 // Import the 'students' model and initialize it with Sequelize
 db.students = require('./studentModel')(sequelize, DataTypes);
-// db.courses = require('./courseModel')(sequelize, DataTypes);
+db.courses = require('./courseModel')(sequelize, DataTypes);
 // db.users = require('./authModel')(sequelize, DataTypes);
 
 // Sync the database (create tables if they don't exist)
