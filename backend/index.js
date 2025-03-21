@@ -4,6 +4,12 @@ const express = require('express');
 // Import CORS middleware to handle cross-origin requests
 const cors = require('cors');
 
+
+const studentRoute = require("./routes/studentRoutes");
+const courseRoute = require("./routes/courseRoutes");
+// const authRoute = require("./routes/authRoute");
+
+
 // Load environment variables from a .env file (if available)
 require('dotenv').config();
 
@@ -18,9 +24,6 @@ var corOptions = {
 // Use CORS middleware with the specified options
 app.use(cors(corOptions));
 
-const studentRoute = require("./routes/studentRoutes");
-// const courseRoute = require("./routes/courseRoutes");
-// const authRoute = require("./routes/authRoute");
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());
@@ -28,8 +31,8 @@ app.use(express.json());
 // Middleware to parse URL-encoded data (from HTML forms)
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/Student', studentRoute);
-// app.use('/Course', courseRoute);
+app.use('/Student', studentRoutes);
+app.use('/Course', courseRoutes);
 // app.use('/auth', authRoute);
 
 // Set the server port from an environment variable or default to 5000
